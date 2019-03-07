@@ -23,23 +23,26 @@ namespace oopExample
         public MainWindow()
         {
             InitializeComponent();
-            Person p1 = new Person("Bob", "Smith", new DateTime(1988, 8, 9));
-            Teen t1 = new Teen("Will", "Smith", new DateTime(2005, 9, 8));
-            t1.ShoeSize = 9;
-            MessageBox.Show(t1.FullName + Environment.NewLine + t1.ShoeSize.ToString());
+            Teen t1 = new Teen("Suzy", "Que", new DateTime(2003, 8, 9));
+            MessageBox.Show(t1.ToString());
+            Person p1 = new Person("Bob", "Smith", new DateTime(1966, 2, 28));
+            MessageBox.Show(p1.ToString());
+            p1.Move();
+            MessageBox.Show(p1.ToString());
+            MessageBox.Show("Hi","This is my caption");
+            p1.Move();
+            MessageBox.Show(p1.ToString());
+            lblOutput.Content = p1.FullName + Environment.NewLine;
+            lblOutput.Content += p1.getAge().ToString();
         }
     }
-    /// <summary>
-    /// Represents a person - has a name and birthday.
-    /// </summary>
+
     public class Person
     {
         private string mFirstName;
         private string mLastName;
         private DateTime mBirthDay;
-        /// <summary>
-        /// Consists of the first and last name
-        /// </summary>
+        private int mLocX;
         public string FullName
         {
             get
@@ -47,37 +50,43 @@ namespace oopExample
                 return mFirstName + " " + mLastName;
             }
         }
-        /// <summary>
-        /// Create a person
-        /// </summary>
-        /// <param name="firstName">string</param>
-        /// <param name="lastName">string</param>
-        /// <param name="birthDay">DateTime</param>
-        public Person(string firstName, string lastName, DateTime birthDay)
+        public override string ToString()
         {
-            mFirstName = firstName;
-            mLastName = lastName;
-            mBirthDay = birthDay;
+            return mLastName + ", " + mFirstName + " Location: " + mLocX.ToString();
+        }
+        public Person(string F, string L, DateTime B) {
+            mFirstName = F;
+            mLastName = L;
+            mBirthDay = B;
+            mLocX = 0;
+        }
+        public void Move()
+        {
+            Move(1);
+        }
+
+        public void Move(int d)
+        {
+            mLocX = mLocX + d;
+        }
+        public int getAge()
+        {
+            int age = DateTime.Now.Year - mBirthDay.Year;
+            return age;
+        }
+
+    }
+    public class Kid : Person
+    {
+
+        public Kid(string F, string L, DateTime B) : base(F, L, B)
+        {
         }
     }
-
     public class Teen : Person
     {
-        private int shoesize;
-        public int ShoeSize
-            {
-            get 
-            {
-                return shoesize;
-            }
-            set
-            {
-                shoesize = value;
-            }
-            }
-        public Teen(string firstname, string lastname, DateTime birthday) : base (firstname, lastname, birthday)
+        public Teen(string F, string L, DateTime B) : base(F, L, B)
         {
-            
         }
     }
 }
